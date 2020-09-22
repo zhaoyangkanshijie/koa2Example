@@ -1,5 +1,5 @@
 const router = require('koa-router')()
-const userService = require('../config/mysqlRepository.js');
+const userService = require('../app/service/userRepository.js');
 
 router.prefix('/users')
 
