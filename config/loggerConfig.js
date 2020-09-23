@@ -1,34 +1,70 @@
-const path = require('path');//引入原生path模块
-const log4js = require('koa-log4');//引入koa-log4
+var path = require('path');
 
-log4js.configure({
-    appenders: {
-        //访问日志
-        access: {
-            type: 'dateFile',
-            pattern: '-yyyy-MM-dd.log', //通过日期来生成文件
-            alwaysIncludePattern: true, //文件名始终以日期区分
-            encoding: "utf-8",
-            filename: path.join('logs/', 'access.log') //生成文件路径和文件名
+//日志根目录
+var baseLogPath = path.resolve(__dirname, '../logs')
+
+/*报错输出日志*/
+//错误日志目录、文件名、输出完整路径
+var errorPath = "/error";
+var errorFileName = "error";
+var errorLogPath = baseLogPath + errorPath + "/" + errorFileName;
+
+/*请求数据得到响应时输出响应日志*/
+//响应日志目录、文件名、输出完整路径
+var responsePath = "/response";
+var responseFileName = "response";
+var responseLogPath = baseLogPath + responsePath + "/" + responseFileName;
+
+/*操作数据库进行增删改等敏感操作记录日志*/
+//操作日志目录、文件名、输出完整路径
+var handlePath = "/handle";
+var handleFileName = "handle";
+var handleLogPath = baseLogPath + handlePath + "/" + handleFileName;
+
+
+module.exports = {
+    //日志格式等设置
+    appenders:
+        {
+            "rule-console": {"type": "console"},
+            "errorLogger": {
+                "type": "dateFile",
+                "filename": errorLogPath,
+                "pattern": "-yyyy-MM-dd-hh.log",
+                "alwaysIncludePattern": true,
+                "encoding": "utf-8",
+                "maxLogSize": 1000,
+                "numBackups": 3,
+                "path": errorPath
+            },
+            "resLogger": {
+                "type": "dateFile",
+                "filename": responseLogPath,
+                "pattern": "-yyyy-MM-dd-hh.log",
+                "alwaysIncludePattern": true,
+                "encoding": "utf-8",
+                "maxLogSize": 1000,
+                "numBackups": 3,
+                "path": responsePath
+            },
+            "handleLogger": {
+                "type": "dateFile",
+                "filename": handleLogPath,
+                "pattern": "-yyyy-MM-dd-hh.log",
+                "alwaysIncludePattern": true,
+                "encoding": "utf-8",
+                "maxLogSize": 1000,
+                "numBackups": 3,
+                "path": responsePath
+            },
         },
-        //系统日志
-        application: {
-            type: 'dateFile',
-            pattern: '-yyyy-MM-dd.log', //通过日期来生成文件
-            alwaysIncludePattern: true, //文件名始终以日期区分
-            encoding: "utf-8",
-            filename: path.join('logs/', 'application.log') //生成文件路径和文件名
-        },
-        out: {
-            type: 'console'
-        }
-    },
+    //供外部调用的名称和对应设置定义
     categories: {
-        default: { appenders: ['out'], level: 'info' },
-        access: { appenders: ['access'], level: 'info' },
-        application: { appenders: ['application'], level: 'WARN' }
-    }
-});
-
-exports.accessLogger = () => log4js.koaLogger(log4js.getLogger('access')); //记录所有访问级别的日志
-exports.systemLogger = log4js.getLogger('application');  //记录所有应用级别的日志
+        "default": {"appenders": ["rule-console"], "level": "all"},
+        "resLogger": {"appenders": ["resLogger"], "level": "info"},
+        "errorLogger": {"appenders": ["errorLogger"], "level": "error"},
+        "handleLogger": {"appenders": ["handleLogger"], "level": "all"},
+        "http": {"appenders": ["resLogger"], "level": "info"}
+    },
+    "baseLogPath": baseLogPath
+}
