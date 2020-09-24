@@ -8,10 +8,19 @@ const logger = require('koa-logger')
 const moment = require("moment");
 const authoization = require('./middleware/authoization')
 const interceptor = require('./middleware/interceptor')
-const applicationLog = require('./middleware/log.js');
+const applicationLog = require('./middleware/log');
 const index = require('./routes/index')
 const users = require('./routes/users')
-const login = require('./routes/api/login')
+const register = require('./routes/register')
+const login = require('./routes/login')
+const jwtToken = require('./routes/api/jwtToken')
+
+const code = require('./config/responseCodeConfig')
+const logHandle = require('./app/util/koaLog4').logHandle
+const logInfo = require('./app/util/koaLog4').logInfo
+global.code = code
+global.logHandle = logHandle
+global.logInfo = logInfo
 
 // error handler
 onerror(app)
@@ -38,9 +47,11 @@ app.use(authoization.routes(), authoization.allowedMethods())
 app.use(interceptor())
 
 // routes
-app.use(login.routes(), login.allowedMethods())
 app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
+app.use(register.routes(), register.allowedMethods())
+app.use(login.routes(), login.allowedMethods())
+app.use(jwtToken.routes(), jwtToken.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {

@@ -4,17 +4,16 @@ const util = require('util')
 const verify = util.promisify(jwt.verify) // 解密
 const jwtKoa = require('koa-jwt')
 const jwtConfig = require('../config/jwtConfig')
-const logHandle = require('../app/util/koaLog4').logHandle;
-const logInfo = require('../app/util/koaLog4').logInfo;
 
 jwtKoa(jwtConfig.secret).unless({
     path: jwtConfig.unlessPath //数组中的路径不需要通过jwt验证，在这里好像没什么用，下面有白名单判断
 })
 
 let authoization = async (ctx, next) => {
-    logHandle("进入授权1");
-    logInfo("进入授权2");
+    global.logHandle("进入授权1");
+    //global.logInfo("进入授权2");
     let url = ctx.originalUrl;
+    console.log(url);
     if (jwtConfig.unlessPath.indexOf(url) > -1) {
         console.log('through unlessPath next');
         await next()
@@ -46,9 +45,9 @@ let authoization = async (ctx, next) => {
 }
 
 router.get('*', async (ctx, next) => {
-    authoization(ctx, next)
+    await authoization(ctx, next)
 }).post('*', async (ctx, next) => {
-    authoization(ctx, next)
+    await authoization(ctx, next)
 })
 
 module.exports = router;

@@ -1,8 +1,14 @@
 const config = {
     secret:'jwt demo',
-    unlessPath: ['/api/login']
+    unlessPath: [
+        '/',
+        '/register',
+        '/login',
+        '/users',
+        '/api/getjwtToken',
+        '/api/checkjwtToken',
+        '/favicon.ico'
+    ]
 }
-
-
 
 module.exports = config

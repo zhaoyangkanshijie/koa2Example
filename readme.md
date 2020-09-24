@@ -9,6 +9,7 @@
 * [项目生成](#项目生成)
 * [中间件](#中间件)
 * [日志](#日志)
+* [密文密码](#密文密码)
 
 ---
 
@@ -91,7 +92,7 @@ package.json
         //}
 
         //ctx.response.redirect('/');
-        
+
         //满足条件就next
         //await next()
     }
@@ -107,6 +108,8 @@ package.json
 
 ## 日志
 
+参考： [koa2学习笔记02 - 给koa2添加系统日志 —— node日志管理模块log4js](https://www.cnblogs.com/HoChine/p/10717831.html)
+
 * 控制台打印
 
     使用koa-logger
@@ -114,3 +117,20 @@ package.json
 * 文件日志
 
     使用koa-log4
+
+## 密文密码
+
+参考： 
+
+[Koa2用户注册生成密文密码及用户登录时生成token返回](https://blog.csdn.net/junkaicool/article/details/93710886)
+
+[nodejs中的bcryptjs密码加密](https://segmentfault.com/a/1190000008841988)
+
+bcrypt报错则使用bcryptjs
+```js
+npm install bcryptjs --save
+var bcrypt = require('bcryptjs');
+var hash = bcrypt.hashSync('bacon', 10);
+bcrypt.compareSync("bacon", hash);
+bcrypt.compareSync("not_bacon", hash);
+```
