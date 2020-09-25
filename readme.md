@@ -10,6 +10,7 @@
 * [中间件](#中间件)
 * [日志](#日志)
 * [密文密码](#密文密码)
+* [路由循环引入](#路由循环引入)
 
 ---
 
@@ -27,18 +28,18 @@ bin
     www             --入口文件
 node_modules
 app
-    controller      --接收请求处理逻辑
     model           --数据库表结构
     service         --数据库CRUD操作
+    util            --工具方法
 config              --配置文件，如数据库连接密码
-middleware          --中间件
-public
+middleware          --中间件(拦截器)
+public              --mvc相关资源(mvvm则缺省)
     images
     javascripts
     stylesheets
-routes              --路由
+routes(controller)  --路由(接收请求处理逻辑)
     ***.js
-views               --视图
+views               --mvc视图(mvvm则在其中建项目)
     ***.pug
 app.js              --主程序配置
 package.json
@@ -134,3 +135,30 @@ var hash = bcrypt.hashSync('bacon', 10);
 bcrypt.compareSync("bacon", hash);
 bcrypt.compareSync("not_bacon", hash);
 ```
+
+## 路由循环引入
+
+1. 配置路由路径对象
+
+```js
+const routePath = {
+    'test': '../routes/test',
+    ...
+}
+```
+
+2. middleware提供循环方法，传入app
+
+```js
+let activateRoutes = (app) => {
+    let routes = [];
+    let index = 0;
+    for(let key in routePath){
+        routes[index] = require(routePath[key]);
+        app.use(routes[index].routes(), routes[index].allowedMethods());
+        index++;
+    }
+    return app;
+}
+```
+

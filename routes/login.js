@@ -1,7 +1,7 @@
 const router = require('koa-router')()
 const userService = require('../app/service/userRepository.js');
 const bcrypt = require('bcryptjs');
-const token = require('../app/service/token')
+const token = require('../app/util/token')
 
 router.prefix('/login')
 

@@ -5,15 +5,12 @@ const json = require('koa-json')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
-const moment = require("moment");
+const moment = require("moment")
+
 const authoization = require('./middleware/authoization')
 const interceptor = require('./middleware/interceptor')
-const applicationLog = require('./middleware/log');
-const index = require('./routes/index')
-const users = require('./routes/users')
-const register = require('./routes/register')
-const login = require('./routes/login')
-const jwtToken = require('./routes/api/jwtToken')
+const applicationLog = require('./middleware/log')
+const activateRoutes = require('./middleware/activateRoutes')
 
 const code = require('./config/responseCodeConfig')
 const logHandle = require('./app/util/koaLog4').logHandle
@@ -43,15 +40,12 @@ app.use(views(__dirname + '/views', {
 // logger
 app.use(applicationLog())
 
+// middleware intercept
 app.use(authoization.routes(), authoization.allowedMethods())
 app.use(interceptor())
 
 // routes
-app.use(index.routes(), index.allowedMethods())
-app.use(users.routes(), users.allowedMethods())
-app.use(register.routes(), register.allowedMethods())
-app.use(login.routes(), login.allowedMethods())
-app.use(jwtToken.routes(), jwtToken.allowedMethods())
+activateRoutes(app)
 
 // error-handling
 app.on('error', (err, ctx) => {
