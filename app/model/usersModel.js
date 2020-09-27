@@ -1,5 +1,3 @@
-const { users } = require("../../config/routePathConfig")
-
 const usersModel = {
     id: 0,
     name: '',

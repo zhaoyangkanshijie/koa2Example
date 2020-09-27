@@ -30,8 +30,10 @@ const query = (sql, values) => {
                 //操作数据库
 	            connection.query(sql, values, (err, results) => {
 	                if (err) {
+                        console.log(err);
 	                	reject(err);
 	                } else {
+                        console.log(results);
 	                	connection.release();
 	                	resolve(results);
 	                }
@@ -53,11 +55,13 @@ const connector = class{
     selectAllFromTable(tableName) {
         global.logHandle('selectAllFromTable')
         this.sql += "select * from " + tableName;
+        global.logHandle(this.sql);
         return this;
     }
     selectSomeFromTable(tableName,columnNames) {
         global.logHandle('selectSomeFromTable')
         this.sql += "select " + columnNames.join(" ") + " from " + tableName;
+        global.logHandle(this.sql);
         return this;
     }
     insertDataToTable(tableName,model) {
@@ -66,13 +70,20 @@ const connector = class{
         let index = 0;
         for(let key in model){
             if(index === 0){
-                this.sql += key + "=" + model[key];
+                this.sql += key + "='" + model[key] + "'";
                 index++;
             }
             else{
-                this.sql += "," + key + "=" + model[key];
+                this.sql += "," + key + "='" + model[key] + "'";
             }
         }
+        global.logHandle(this.sql);
+        return this;
+    }
+    combine(sql) {
+        global.logHandle('combine')
+        this.sql += sql;
+        global.logHandle(this.sql);
         return this;
     }
 }

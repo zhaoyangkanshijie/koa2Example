@@ -11,29 +11,13 @@ router.get('/', async (ctx, next) => {
 })
 .post('/', async (ctx, next) => {
     //global.logHandle(ctx)
-    let arr = [];
-    arr.push(ctx.request.body['name']);
-    arr.push(bcrypt.hashSync(ctx.request.body['password'], 10));
-    arr.push(ctx.request.body['email']);
-
-    //console.log(bcrypt.compareSync(ctx.request.body['password'], bcrypt.hashSync(ctx.request.body['password'], 10)))
-    ctx.body = {
-        data: '正在修改sql'
+    let model = {
+        name: ctx.request.body['name'],
+        password: bcrypt.hashSync(ctx.request.body['password'], 10),
+        email: ctx.request.body['email']
     }
-    // await usersRepository.addUserData(arr)
-    //     .then((data) => {
-    //         let result = '';
-    //         if (data.affectedRows != 0) {
-    //             result = 'success';
-    //         }
-    //         ctx.body = {
-    //             data: result
-    //         }
-    //     }).catch((e) => {
-    //         ctx.body = {
-    //             data: e.toString()
-    //         }
-    //     })
+    //console.log(model);
+    ctx.body = await usersRepository.addUserData(model);
 })
 
 module.exports = router
