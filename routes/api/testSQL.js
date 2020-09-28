@@ -22,6 +22,7 @@ router.get('/insert', async (ctx, next) => {
 })
 
 router.get('/selectOne', async (ctx, next) => {
+    let name = 'aaa'
     ctx.body = await new connector().selectAllFromTable(tableName).whereAllEquals({ name: name }).getStatement();
 })
 
