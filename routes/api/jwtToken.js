@@ -10,9 +10,9 @@ jwtKoa(jwtConfig.secret).unless({
     path: jwtConfig.unlessPath //数组中的路径不需要通过jwt验证
 })
 
-router.prefix('/api')
+router.prefix('/api/jwtToken')
 
-router.post('/getJwtToken', async (ctx, next) => {
+router.post('/get', async (ctx, next) => {
     const user = ctx.request.body
     if(user && user.name) {
         let userToken = {
@@ -31,7 +31,7 @@ router.post('/getJwtToken', async (ctx, next) => {
         }
     }
 })
-router.post('/checkJwtToken', async (ctx, next) => {
+router.post('/check', async (ctx, next) => {
     const token = ctx.header.authorization  // 获取jwt
     let payload
     if (token) {

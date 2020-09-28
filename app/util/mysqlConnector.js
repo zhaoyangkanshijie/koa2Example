@@ -48,35 +48,65 @@ const connector = class{
         this.sql = ''
     }
     
+    getStatement() {
+        return this.sql;
+    }
     execute() {
         global.logHandle('execute')
         return query(this.sql);
     }
     selectAllFromTable(tableName) {
         global.logHandle('selectAllFromTable')
-        this.sql += "select * from " + tableName;
+        this.sql += `select * from ${tableName}`;
         global.logHandle(this.sql);
         return this;
     }
     selectSomeFromTable(tableName,columnNames) {
         global.logHandle('selectSomeFromTable')
-        this.sql += "select " + columnNames.join(" ") + " from " + tableName;
+        this.sql += `select ${columnNames.join(" ")} from ${tableName}`;
         global.logHandle(this.sql);
         return this;
     }
     insertDataToTable(tableName,model) {
         global.logHandle('insertDataToTable')
-        this.sql += "insert into " + tableName + " set ";
+        this.sql += `insert into ${tableName} set `;
         let index = 0;
         for(let key in model){
             if(index === 0){
-                this.sql += key + "='" + model[key] + "'";
+                this.sql += `${key} = '${model[key]}'`;
                 index++;
             }
             else{
-                this.sql += "," + key + "='" + model[key] + "'";
+                this.sql += `,${key} = '${model[key]}'`;
             }
         }
+        global.logHandle(this.sql);
+        return this;
+    }
+    whereAllEquals(model) {
+        global.logHandle('whereAllEquals')
+        let index = 0;
+        for(let key in model){
+            if(index === 0){
+                this.sql += ` where ${key} = '${model[key]}'`;
+                index++;
+            }
+            else{
+                this.sql += ` and ${key} = '${model[key]}'`;
+            }
+        }
+        global.logHandle(this.sql);
+        return this;
+    }
+    orderBy(key) {
+        global.logHandle('orderBy')
+        this.sql += ` order by ${key}`;
+        global.logHandle(this.sql);
+        return this;
+    }
+    orderByDesc(key) {
+        global.logHandle('orderByDesc')
+        this.sql += ` order by ${key} desc`;
         global.logHandle(this.sql);
         return this;
     }

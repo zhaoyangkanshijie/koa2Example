@@ -17,6 +17,31 @@ function deepClone(obj, hash = new WeakMap()) {
     return constr;
 }
 
+function passThrough(path,url) {
+    let flag = false;
+    for(let i = 0;i < path.length;i++){
+        if(path[i] === '*'){
+            flag = true;
+            break;
+        }else{
+            let pathParts = path[i].split('/');
+            let urlParts = url.split('/');
+            let pathMatch = true;
+            for(let j = 0;j < pathParts.length;j++){
+                if(pathParts[j] !== urlParts[j] && pathParts[j] !== '*'){
+                    pathMatch = false;
+                }
+            }
+            if(pathMatch){
+                flag = true;
+                break;
+            }
+        }
+    }
+    return flag;
+}
+
 module.exports = {
-    deepClone
+    deepClone,
+    passThrough
 }

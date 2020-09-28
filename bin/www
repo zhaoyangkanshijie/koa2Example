@@ -7,6 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('demo:server');
 var http = require('http');
+//const sslify = require('koa-sslify').default
 
 /**
  * Get port from environment and store in Express.
@@ -15,11 +16,21 @@ var http = require('http');
 var port = normalizePort(process.env.PORT || '3000');
 // app.set('port', port);
 
+// 路径为证书放置的位置
+
+// const options = {
+//   key: fs.readFileSync('./httpskey/*****.key'),
+//   cert: fs.readFileSync('./httpskey/*****.pem'),
+// }
+
 /**
  * Create HTTP server.
  */
 
 var server = http.createServer(app.callback());
+
+//app.use(sslify())  // 使用ssl
+//var server = https.createServer(options, app.callback());
 
 /**
  * Listen on provided port, on all network interfaces.

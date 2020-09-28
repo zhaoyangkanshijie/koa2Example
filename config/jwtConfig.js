@@ -5,8 +5,8 @@ const config = {
         '/register',
         '/login',
         '/users',
-        '/api/getjwtToken',
-        '/api/checkjwtToken',
+        '/api/jwtToken/*',
+        '/api/testSQL/*',
         '/favicon.ico'
     ]
 }

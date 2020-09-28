@@ -1,6 +1,7 @@
 const router = require('koa-router')()
 const jwt = require('jsonwebtoken')
 const util = require('util')
+const myUtil = require('../app/util/util')
 const verify = util.promisify(jwt.verify) // 解密
 const jwtKoa = require('koa-jwt')
 const jwtConfig = require('../config/jwtConfig')
@@ -14,7 +15,7 @@ let authoization = async (ctx, next) => {
     //global.logInfo("进入授权2");
     let url = ctx.originalUrl;
     console.log(url);
-    if (jwtConfig.unlessPath.indexOf(url) > -1) {
+    if (myUtil.passThrough(jwtConfig.unlessPath,url)) {
         console.log('through unlessPath next');
         await next()
     } else {
@@ -31,14 +32,14 @@ let authoization = async (ctx, next) => {
                 console.log('authoization exception');
                 ctx.body = {
                     message: 'exception',
-                    code: -1
+                    code: global.code.exception.error_code
                 }
             }
         } else {
             console.log('authoization error');
             ctx.body = {
                 message: 'token error',
-                code: -1
+                code: global.code.error_code.error_code
             }
         }
     }

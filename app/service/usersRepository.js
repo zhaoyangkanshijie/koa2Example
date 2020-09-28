@@ -14,7 +14,7 @@ const usersRepository = {
     },
     findUser: async (name) => {
         global.logHandle('findUser')
-        return await new connector().selectAllFromTable(tableName).combine(` where name = '${name}'`).execute();
+        return await new connector().selectAllFromTable(tableName).whereAllEquals({name:name}).execute();
     },
 }
 
