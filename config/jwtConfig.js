@@ -7,6 +7,7 @@ const config = {
         '/users',
         '/api/jwtToken/*',
         '/api/testSQL/*',
+        '/api/mockServer/*',
         '/favicon.ico'
     ]
 }

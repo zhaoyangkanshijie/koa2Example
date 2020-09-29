@@ -45,10 +45,13 @@ let authoization = async (ctx, next) => {
     }
 }
 
-router.get('*', async (ctx, next) => {
-    await authoization(ctx, next)
-}).post('*', async (ctx, next) => {
+router.all('*', async (ctx, next) => {
     await authoization(ctx, next)
 })
+// router.get('*', async (ctx, next) => {
+//     await authoization(ctx, next)
+// }).post('*', async (ctx, next) => {
+//     await authoization(ctx, next)
+// })
 
 module.exports = router;
