@@ -55,15 +55,45 @@ const connector = class{
         global.logHandle('execute')
         return query(this.sql);
     }
+    columnName(name) {
+        global.logHandle('columnName')
+        this.sql += ` ${name}`;
+        global.logHandle(this.sql);
+        return this;
+    }
+    operator(operation) {
+        global.logHandle('operator')
+        this.sql += ` ${operation}`;
+        global.logHandle(this.sql);
+        return this;
+    }
+    condition(condition) {
+        global.logHandle('condition')
+        this.sql += ` ${condition}`;
+        global.logHandle(this.sql);
+        return this;
+    }
     selectAllFromTable(tableName) {
         global.logHandle('selectAllFromTable')
         this.sql += `select * from ${tableName}`;
         global.logHandle(this.sql);
         return this;
     }
-    selectSomeFromTable(tableName,columnNames) {
+    selectSomeFromTable(tableName,columnNames,distinct = false,top = '') {
         global.logHandle('selectSomeFromTable')
-        this.sql += `select ${columnNames.join(" ")} from ${tableName}`;
+        if(distinct){
+            if(top){
+                this.sql += `select distinct top ${top} ${columnNames.join(" ")} from ${tableName}`;
+            }else{
+                this.sql += `select distinct ${columnNames.join(" ")} from ${tableName}`;
+            }
+        }else{
+            if(top){
+                this.sql += `select top ${top} ${columnNames.join(" ")} from ${tableName}`;
+            }else{
+                this.sql += `select ${columnNames.join(" ")} from ${tableName}`;
+            }
+        }
         global.logHandle(this.sql);
         return this;
     }
@@ -80,6 +110,12 @@ const connector = class{
                 this.sql += `,${key} = '${model[key]}'`;
             }
         }
+        global.logHandle(this.sql);
+        return this;
+    }
+    whereStatement(statement) {
+        global.logHandle('whereStatement')
+        this.sql += ` where ${statement}`;
         global.logHandle(this.sql);
         return this;
     }
@@ -110,9 +146,27 @@ const connector = class{
         global.logHandle(this.sql);
         return this;
     }
+    groupBy(key,condition = '') {
+        global.logHandle('groupBy')
+        this.sql += ` group by ${key}`;
+        if(condition){
+            this.sql += ` ${condition}`;
+        }
+        global.logHandle(this.sql);
+        return this;
+    }
+    limit(begin,count = '') {
+        global.logHandle('limit')
+        this.sql += ` limit ${begin}`;
+        if(count){
+            this.sql += `,${count}`;
+        }
+        global.logHandle(this.sql);
+        return this;
+    }
     combine(sql) {
         global.logHandle('combine')
-        this.sql += sql;
+        this.sql += ` ${sql}`;
         global.logHandle(this.sql);
         return this;
     }
