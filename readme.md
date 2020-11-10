@@ -420,3 +420,26 @@ const connector = class{
     }
 }
 ```
+
+## 前端埋点监控信息记录
+
+```js
+function getClientIP(req) {
+    return (req.headers ? (req.headers['x-forwarded-for'] || req.headers['x-real-ip']) : null) || // 判断是否有反向代理 IP
+        (req.connection ? (req.connection.remoteAddress || (req.connection.socket ? req.connection.socket.remoteAddress : null)) : null) || // 判断 connection 的远程 IP
+        (req.socket ? req.socket.remoteAddress : null) || // 判断后端的 socket 的 IP
+        'unknown';
+}
+```
+
+```js
+let model = myUtil.deepClone(monitorBrowserModel);
+let body = JSON.parse(ctx.request.body);
+for(let key in model){
+    model[key] = JSON.stringify(body[key]);
+}
+model.ip = myUtil.getClientIP(ctx.request.header);
+model.time = new Date().getTime();
+delete model.id;
+let result = await monitorRepository.addBrowserData(model);
+```
