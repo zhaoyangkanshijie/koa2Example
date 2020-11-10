@@ -7,6 +7,7 @@ const routePath = {
     'testSQL': '../routes/api/testSQL',
     'mockServer': '../routes/api/mockServer',
     'PVUV': '../routes/api/PVUV',
+    'monitor': '../routes/api/monitor',
 }
 
 module.exports = routePath;

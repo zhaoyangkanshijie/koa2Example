@@ -9,6 +9,7 @@ const config = {
         '/api/testSQL/*',
         '/api/mockServer/*',
         '/api/pvuv/*',
+        '/api/monitor/*',
         '/favicon.ico'
     ]
 }

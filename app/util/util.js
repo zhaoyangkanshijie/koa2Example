@@ -41,7 +41,20 @@ function passThrough(path,url) {
     return flag;
 }
 
+/**
+ * @getClientIP
+ * @desc 获取用户 ip 地址
+ * @param {Object} req - 请求
+ */
+function getClientIP(req) {
+    return (req.headers ? (req.headers['x-forwarded-for'] || req.headers['x-real-ip']) : null) || // 判断是否有反向代理 IP
+        (req.connection ? (req.connection.remoteAddress || (req.connection.socket ? req.connection.socket.remoteAddress : null)) : null) || // 判断 connection 的远程 IP
+        (req.socket ? req.socket.remoteAddress : null) || // 判断后端的 socket 的 IP
+        'unknown';
+};
+
 module.exports = {
     deepClone,
-    passThrough
+    passThrough,
+    getClientIP
 }
