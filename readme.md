@@ -424,6 +424,29 @@ const connector = class{
 
 ## 前端埋点监控信息记录
 
+监听单页面URL变化
+```js
+let historyEvent = function(type) {
+    let origin = history[type];
+    return function() {
+        let result = origin.apply(this, arguments);
+        let event = new Event(type);
+        event.arguments = arguments;
+        window.dispatchEvent(event);
+        return result;
+    };
+};
+history.pushState = historyEvent('pushState');
+history.replaceState = historyEvent('replaceState');
+
+window.addEventListener('replaceState', function(e) {
+    console.log('replaceState');
+});
+window.addEventListener('pushState', function(e) {
+    console.log('pushState');
+});
+```
+
 ```js
 function getClientIP(req) {
     return (req.headers ? (req.headers['x-forwarded-for'] || req.headers['x-real-ip']) : null) || // 判断是否有反向代理 IP

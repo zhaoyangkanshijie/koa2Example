@@ -3,17 +3,35 @@ class browserMonitor{
         this.startTime = new Date().getTime();
         this.stayTime = 0;
         this.stayInPage = true;
+        this.addHistoryEvent();
         this.clickEvent();
         this.copyEvent();
         this.unloadEvent();
         this.hashchangeEvent();
         this.popstateEvent();
+        this.pushStateEvent();
+        this.replaceStateEvent();
+        this.visibilitychangeEvent();
         this.elementErrorEvent();
         this.windowErrorEvent();
         this.promiseErrorEvent();
         this.getBrowserInfo().then((value)=>{
             navigator.sendBeacon('/api/monitor/browser', JSON.stringify(value));
         });
+    }
+    addHistoryEvent(){
+        let historyEvent = function(type) {
+            let origin = history[type];
+            return function() {
+                let result = origin.apply(this, arguments);
+                let event = new Event(type);
+                event.arguments = arguments;
+                window.dispatchEvent(event);
+                return result;
+            };
+        };
+        history.pushState = historyEvent('pushState');
+        history.replaceState = historyEvent('replaceState');
     }
     getBrowserInfo(ua){
         // If an UA is not provided, default to the current browser UA.
@@ -302,7 +320,7 @@ class browserMonitor{
             // client.open('POST', '/log', false);// 第三个参数表示同步发送
             // client.setRequestHeader('Content-Type', 'text/plain;charset=UTF-8');
             // client.send(data);
-            navigator.sendBeacon('/api/monitor/leave', JSON.stringify({
+            navigator.sendBeacon('/api/monitor/stay', JSON.stringify({
                 url: document.URL,
                 stayTime: this.stayTime + (new Date().getTime() - this.startTime)
             }));
@@ -332,16 +350,43 @@ class browserMonitor{
             this.stayInPage = true;
         });
     }
+    pushStateEvent(){
+        window.addEventListener("pushState",(event)=>{
+            console.log("pushState");
+            navigator.sendBeacon('/api/monitor/stay', JSON.stringify({
+                url: document.URL,
+                stayTime: this.stayTime + (new Date().getTime() - this.startTime)
+            }));
+            this.startTime = new Date().getTime();
+            this.stayTime = 0;
+            this.stayInPage = true;
+        });
+    }
+    replaceStateEvent(){
+        window.addEventListener("replaceState",(event)=>{
+            console.log("replaceState");
+            navigator.sendBeacon('/api/monitor/stay', JSON.stringify({
+                url: document.URL,
+                stayTime: this.stayTime + (new Date().getTime() - this.startTime)
+            }));
+            this.startTime = new Date().getTime();
+            this.stayTime = 0;
+            this.stayInPage = true;
+        });
+    }
     visibilitychangeEvent(){
         document.addEventListener('visibilitychange', (e)=>{
             console.log(e)
+            let now = new Date().getTime();
             if(this.stayInPage){
-                this.stayTime += new Date().getTime() - this.startTime;
+                this.stayTime += now - this.startTime;
                 this.stayInPage = !this.stayInPage;
+                //console.log(now,this.startTime,this.stayTime,this.stayInPage,now - this.startTime)
             }
             else{
-                this.startTime = new Date().getTime();
+                this.startTime = now;
                 this.stayInPage = !this.stayInPage;
+                //console.log(now,this.startTime,this.stayTime,this.stayInPage)
             }
         })
     }
