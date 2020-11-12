@@ -424,6 +424,16 @@ const connector = class{
 
 ## 前端埋点监控信息记录
 
+* 无埋点方案
+
+    * 多页面
+
+        每次进入页面采集浏览器信息、性能数据，点击、复制、错误触发上报，关闭上报停留时间
+
+    * 单页面
+
+        只采集一次浏览器信息、性能数据，URL改变触发hashchange、pushstate上报停留时间，点击、复制、错误触发上报，关闭上报停留时间
+
 监听单页面URL变化
 ```js
 let historyEvent = function(type) {

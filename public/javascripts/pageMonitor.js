@@ -19,6 +19,35 @@ class browserMonitor{
             navigator.sendBeacon('/api/monitor/browser', JSON.stringify(value));
         });
     }
+    sendXHR(url,data,async){
+        var params = new URLSearchParams();
+        for(let key in data){
+            params.set(key,JSON.stringify(data[key]));
+        }
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', url, async);// 第三个参数false表示同步发送
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.send(params);
+        xhr.onload = (response) => {
+          console.log(response);
+        }
+        xhr.onerror = (error) => {
+          console.log(error);
+        }
+    }
+    //sendSeacon 415 替代方案
+    sendBlob(url,data){
+        var params = new URLSearchParams();
+        for(let key in data){
+            params.set(key,JSON.stringify(data[key]));
+        }
+        var headers = {
+            type: 'application/x-www-form-urlencoded'
+        };
+        var blob = new Blob([params], headers);
+        console.log(blob)
+        navigator.sendBeacon(url, blob);
+    }
     addHistoryEvent(){
         let historyEvent = function(type) {
             let origin = history[type];
@@ -316,10 +345,6 @@ class browserMonitor{
     }
     unloadEvent(){
         window.addEventListener('unload', () => {
-            // var client = new XMLHttpRequest();
-            // client.open('POST', '/log', false);// 第三个参数表示同步发送
-            // client.setRequestHeader('Content-Type', 'text/plain;charset=UTF-8');
-            // client.send(data);
             navigator.sendBeacon('/api/monitor/stay', JSON.stringify({
                 url: document.URL,
                 stayTime: this.stayTime + (new Date().getTime() - this.startTime)
