@@ -6,6 +6,8 @@ const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 const moment = require("moment")
+const session = require('koa-generic-session')
+const redis = require('koa-redis')
 
 const authoization = require('./middleware/authoization')
 const interceptor = require('./middleware/interceptor')
@@ -21,6 +23,15 @@ global.logInfo = logInfo
 
 // error handler
 onerror(app)
+
+//session
+app.keys = ["key1","key2"];//用于session加密处理，2个key随便填
+app.use(session({
+  //如果不设置，默认在内存里
+  key:'session',
+  prefix: 'session',
+  store: new redis()//存进本机redis服务
+}))
 
 // middlewares
 app.use(bodyparser({

@@ -11,15 +11,18 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "debug": "^4.1.1",
+    "ioredis": "^4.19.2",
     "jsonwebtoken": "^8.5.1",
     "koa": "^2.7.0",
     "koa-bodyparser": "^4.2.1",
     "koa-convert": "^1.2.0",
+    "koa-generic-session": "^2.1.1",
     "koa-json": "^2.0.2",
     "koa-jwt": "^4.0.0",
     "koa-log4": "^2.3.2",
     "koa-logger": "^3.2.0",
     "koa-onerror": "^4.1.0",
+    "koa-redis": "^4.0.1",
     "koa-router": "^7.4.0",
     "koa-sslify": "^4.0.3",
     "koa-static": "^5.0.0",
@@ -27,7 +30,8 @@
     "moment": "^2.28.0",
     "mssql": "^6.2.3",
     "mysql": "^2.18.1",
-    "pug": "^2.0.3"
+    "pug": "^2.0.3",
+    "redis": "^3.0.2"
   },
   "devDependencies": {
     "nodemon": "^1.19.1"
