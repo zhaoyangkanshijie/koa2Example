@@ -16,6 +16,7 @@
 * [SQL模拟LINQ](#SQL模拟LINQ)
 * [前端埋点监控信息记录](#前端埋点监控信息记录)
 * [生产环境pm2相关](#生产环境pm2相关)
+* [chromeDebug](#chromeDebug)
 
 ---
 
@@ -546,3 +547,11 @@ let result = await monitorRepository.addBrowserData(model);
         pm2 show <进程int>
         
         pm2 info <进程int>
+
+## chromeDebug
+
+node --inspect bin/www
+
+打开devtools工具
+
+chrome console 可展开object
