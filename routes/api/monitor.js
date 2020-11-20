@@ -3,6 +3,7 @@ const monitorBrowserModel = require('../../app/model/monitorBrowserModel')
 const monitorEventModel = require('../../app/model/monitorEventModel')
 const monitorStayModel = require('../../app/model/monitorStayModel')
 const monitorErrorModel = require('../../app/model/monitorErrorModel')
+const monitorRequestModel = require('../../app/model/monitorRequestModel')
 const code = require('../../config/responseCodeConfig')
 const myUtil = require('../../app/util/util')
 const monitorRepository = require('../../app/service/monitorRepository');
@@ -45,14 +46,14 @@ router.get('/', async (ctx, next) => {
 })
 
 router.post('/browser', async (ctx, next) => {
-    //console.log(ctx.request.body,myUtil.getClientIP(ctx.request.header),new Date().getTime())
+    //console.log(ctx.request.body,myUtil.getClientIP(ctx),new Date().getTime())
 
     let model = myUtil.deepClone(monitorBrowserModel);
     let body = JSON.parse(ctx.request.body);
     for(let key in model){
         model[key] = JSON.stringify(body[key]);
     }
-    model.ip = myUtil.getClientIP(ctx.request.header);
+    model.ip = myUtil.getClientIP(ctx);
     model.time = new Date().getTime();
     delete model.id;
     console.log(model)
@@ -62,14 +63,14 @@ router.post('/browser', async (ctx, next) => {
 })
 
 router.post('/event', async (ctx, next) => {
-    //console.log(ctx.request.body,myUtil.getClientIP(ctx.request.header),new Date().getTime())
+    //console.log(ctx.request.body,myUtil.getClientIP(ctx),new Date().getTime())
 
     let model = myUtil.deepClone(monitorEventModel);
     let body = JSON.parse(ctx.request.body);
     for(let key in model){
         model[key] = JSON.stringify(body[key]);
     }
-    model.ip = myUtil.getClientIP(ctx.request.header);
+    model.ip = myUtil.getClientIP(ctx);
     model.time = new Date().getTime();
     delete model.id;
     console.log(model)
@@ -79,14 +80,14 @@ router.post('/event', async (ctx, next) => {
 })
 
 router.post('/stay', async (ctx, next) => {
-    //console.log(ctx.request.body,myUtil.getClientIP(ctx.request.header),new Date().getTime())
+    //console.log(ctx.request.body,myUtil.getClientIP(ctx),new Date().getTime())
     
     let model = myUtil.deepClone(monitorStayModel);
     let body = JSON.parse(ctx.request.body);
     for(let key in model){
         model[key] = JSON.stringify(body[key]);
     }
-    model.ip = myUtil.getClientIP(ctx.request.header);
+    model.ip = myUtil.getClientIP(ctx);
     model.time = new Date().getTime();
     delete model.id;
     console.log(model)
@@ -96,14 +97,14 @@ router.post('/stay', async (ctx, next) => {
 })
 
 router.post('/error', async (ctx, next) => {
-    //console.log(ctx.request.body,myUtil.getClientIP(ctx.request.header),new Date().getTime())
+    //console.log(ctx.request.body,myUtil.getClientIP(ctx),new Date().getTime())
     
     let model = myUtil.deepClone(monitorErrorModel);
     let body = JSON.parse(ctx.request.body);
     for(let key in model){
         model[key] = JSON.stringify(body[key]);
     }
-    model.ip = myUtil.getClientIP(ctx.request.header);
+    model.ip = myUtil.getClientIP(ctx);
     model.time = new Date().getTime();
     delete model.id;
     console.log(model)

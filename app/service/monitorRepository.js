@@ -5,6 +5,7 @@ const browserTableName = 'browser_monitor';
 const eventTableName = 'event_monitor';
 const stayTableName = 'stay_monitor';
 const errorTableName = 'error_monitor';
+const requestTableName = 'request_monitor';
 
 const monitorRepository = {
     addBrowserData: async (model) => {
@@ -38,6 +39,14 @@ const monitorRepository = {
     findErrorData: async (model) => {
         global.logHandle('findErrorData')
         return await new connector().selectAllFromTable(errorTableName).whereAllEquals(model).execute();
+    },
+    addRequestData: async (model) => {
+        global.logHandle('addRequestData')
+        return await new connector().insertDataToTable(requestTableName,model).execute();
+    },
+    findRequestData: async (model) => {
+        global.logHandle('findRequestData')
+        return await new connector().selectAllFromTable(requestTableName).whereAllEquals(model).execute();
     },
 }
 
