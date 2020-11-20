@@ -190,15 +190,7 @@ class browserMonitor{
         browser.screenHeight = window.screen.height || 0; // 屏幕高度
         browser.screenWidth = window.screen.width || 0; // 屏幕宽度
         browser.colorDepth = window.screen.colorDepth || 0; // 屏幕颜色深度
-        browser.devicePixelRatio = window.devicePixelRatio; 
-        browser.performance = window.performance; // 性能表现
-        browser.dnsTime = window.performance.timing.domainLookupEnd - window.performance.timing.domainLookupStart;
-        browser.tcpTime = window.performance.timing.connectEnd - window.performance.timing.connectStart;
-        browser.firstPaintTime = window.performance.getEntriesByType('paint').length > 0 ? (window.performance.getEntriesByType('paint')[0].startTime || window.performance.timing.responseStart - window.performance.timing.navigationStart) : window.performance.timing.responseStart - window.performance.timing.navigationStart;
-        browser.FirstContentfulPaintTime = window.performance.getEntriesByType('paint').length > 1 ? (window.performance.getEntriesByType('paint')[1].startTime || '') : '';
-        browser.domRenderTime = window.performance.timing.domContentLoadedEventEnd - window.performance.timing.navigationStart;
-        browser.loadTime = window.performance.timing.loadEventEnd - window.performance.timing.navigationStart;
-        browser.resourceInfo = window.performance.getEntriesByType('resource');
+        browser.devicePixelRatio = window.devicePixelRatio;
     
         if (matched.platform) {
             browser[matched.platform] = true;
@@ -298,6 +290,7 @@ class browserMonitor{
             browser[silk] = true;
         }
     
+    
         return new Promise((resolve,reject)=>{
             let tryTimes = 0;
             let timer = setInterval(()=> {
@@ -305,6 +298,7 @@ class browserMonitor{
                     tryTimes++;
                 }
                 else{
+                    browser.performance = window.performance; // 性能表现
                     browser.redirectTime = window.performance.timing.redirectEnd - window.performance.timing.redirectStart;
                     browser.redirectCount = window.performance.navigation.redirectCount;
                     browser.dnsTime = window.performance.timing.domainLookupEnd - window.performance.timing.domainLookupStart;
@@ -314,11 +308,11 @@ class browserMonitor{
                     browser.responseTime = window.performance.timing.responseEnd - window.performance.timing.responseStart;
                     browser.domExplainTime = window.performance.timing.domInteractive - window.performance.timing.responseEnd;
                     browser.domRenderTime = window.performance.timing.domContentLoadedEventEnd - window.performance.timing.navigationStart;
-                    brpwser.resourceLoadTime = window.performance.timing.loadEventStart - window.performance.timing.domContentLoadedEventEnd;
+                    browser.resourceLoadTime = window.performance.timing.loadEventStart - window.performance.timing.domContentLoadedEventEnd;
                     browser.domAnalysisTime = window.performance.timing.domComplete - window.performance.timing.domInteractive;
                     browser.blankTime = (window.performance.timing.domInteractive || window.performance.timing.domLoading || window.performance.timing.responseEnd) - window.performance.timing.fetchStart;
                     browser.firstInteractiveTime = window.performance.timing.domInteractive - window.performance.timing.fetchStart;
-                    browser.domReadyTime = window.performance.timing.domContentLoadEventEnd - window.performance.timing.fetchStart;
+                    browser.domReadyTime = window.performance.timing.domContentLoadedEventEnd - window.performance.timing.fetchStart;
                     browser.loadCompleteTime = window.performance.timing.loadEventEnd - window.performance.timing.fetchStart;
                     browser.firstPaintTime = window.performance.getEntriesByType('paint').length > 0 ? (window.performance.getEntriesByType('paint')[0].startTime || window.performance.timing.responseStart - window.performance.timing.navigationStart) : window.performance.timing.responseStart - window.performance.timing.navigationStart;
                     browser.FirstContentfulPaintTime = window.performance.getEntriesByType('paint').length > 1 ? (window.performance.getEntriesByType('paint')[1].startTime || '') : '';
@@ -370,6 +364,13 @@ class browserMonitor{
     }
     unloadEvent(){
         window.addEventListener('unload', () => {
+            navigator.sendBeacon('/api/monitor/event', JSON.stringify({
+                url: document.URL,
+                eventType: event.type,
+                happenTime: event.timeStamp,
+                target: '',
+                content: ''
+            }));
             navigator.sendBeacon('/api/monitor/stay', JSON.stringify({
                 url: document.URL,
                 stayTime: this.stayTime + (new Date().getTime() - this.startTime)
@@ -379,6 +380,13 @@ class browserMonitor{
     hashchangeEvent(){
         window.addEventListener("hashchange",(event)=>{
             console.log("hashchange");
+            navigator.sendBeacon('/api/monitor/event', JSON.stringify({
+                url: document.URL,
+                eventType: event.type,
+                happenTime: event.timeStamp,
+                target: '',
+                content: ''
+            }));
             navigator.sendBeacon('/api/monitor/stay', JSON.stringify({
                 url: document.URL,
                 stayTime: this.stayTime + (new Date().getTime() - this.startTime)
@@ -391,6 +399,13 @@ class browserMonitor{
     popstateEvent(){
         window.addEventListener("popstate",(event)=>{
             console.log("popstate");
+            navigator.sendBeacon('/api/monitor/event', JSON.stringify({
+                url: document.URL,
+                eventType: event.type,
+                happenTime: event.timeStamp,
+                target: '',
+                content: ''
+            }));
             navigator.sendBeacon('/api/monitor/stay', JSON.stringify({
                 url: document.URL,
                 stayTime: this.stayTime + (new Date().getTime() - this.startTime)
@@ -403,6 +418,13 @@ class browserMonitor{
     pushStateEvent(){
         window.addEventListener("pushState",(event)=>{
             console.log("pushState");
+            navigator.sendBeacon('/api/monitor/event', JSON.stringify({
+                url: document.URL,
+                eventType: event.type,
+                happenTime: event.timeStamp,
+                target: '',
+                content: ''
+            }));
             navigator.sendBeacon('/api/monitor/stay', JSON.stringify({
                 url: document.URL,
                 stayTime: this.stayTime + (new Date().getTime() - this.startTime)
@@ -415,6 +437,13 @@ class browserMonitor{
     replaceStateEvent(){
         window.addEventListener("replaceState",(event)=>{
             console.log("replaceState");
+            navigator.sendBeacon('/api/monitor/event', JSON.stringify({
+                url: document.URL,
+                eventType: event.type,
+                happenTime: event.timeStamp,
+                target: '',
+                content: ''
+            }));
             navigator.sendBeacon('/api/monitor/stay', JSON.stringify({
                 url: document.URL,
                 stayTime: this.stayTime + (new Date().getTime() - this.startTime)
@@ -427,6 +456,13 @@ class browserMonitor{
     visibilitychangeEvent(){
         document.addEventListener('visibilitychange', (e)=>{
             console.log(e)
+            navigator.sendBeacon('/api/monitor/event', JSON.stringify({
+                url: document.URL,
+                eventType: event.type,
+                happenTime: event.timeStamp,
+                target: '',
+                content: ''
+            }));
             let now = new Date().getTime();
             if(this.stayInPage){
                 this.stayTime += now - this.startTime;
