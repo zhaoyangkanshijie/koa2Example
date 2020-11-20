@@ -15,6 +15,7 @@
 * [白名单模拟路由匹配](#白名单模拟路由匹配)
 * [SQL模拟LINQ](#SQL模拟LINQ)
 * [前端埋点监控信息记录](#前端埋点监控信息记录)
+* [生产环境pm2相关](#生产环境pm2相关)
 
 ---
 
@@ -477,3 +478,71 @@ model.time = new Date().getTime();
 delete model.id;
 let result = await monitorRepository.addBrowserData(model);
 ```
+
+## 生产环境pm2相关
+
+[使用PM2将Node.js的集群变得更加容易](https://www.cnblogs.com/jaxu/p/5193643.html)
+
+[PM2常用命令](https://blog.csdn.net/taoerchun/article/details/81537654)
+
+任意一个工作线程挂掉了，PM2会立即将其重启
+
+* 命令
+
+    * 启动
+
+        pm2 start <应用入口> (-i <线程数>)
+
+    * 重启
+
+        pm2 restart all
+
+        pm2 restart <进程int>
+
+    * 重载
+
+        pm2 reload all
+
+        pm2 reload <进程int>
+
+    * 增加线程
+
+        pm2 scale <应用入口> <线程数>
+
+    * 服务器重启后自动运行之前的应用
+
+        start后执行:pm2 save
+
+        这将在~/.pm2目录下生成一个dump.pm2文件，里面描述了当前PM2上运行着的所有应用。然后执行命令：pm2 startup (<当前的系统环境>)
+
+    * 停止
+
+        pm2 stop all
+
+        pm2 stop <进程int>
+
+    * 删除进程
+
+        pm2 delete all
+
+        pm2 delete <进程int>
+
+    * 日志
+
+        pm2 logs [--raw]
+
+        pm2 flush
+
+        pm2 reloadLogs
+
+    * 监控
+
+        pm2 monit
+
+    * 查看进程
+
+        pm2 list
+
+        pm2 show <进程int>
+        
+        pm2 info <进程int>
