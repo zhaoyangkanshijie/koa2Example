@@ -315,7 +315,7 @@ class browserMonitor{
                     browser.domReadyTime = window.performance.timing.domContentLoadedEventEnd - window.performance.timing.fetchStart;
                     browser.loadCompleteTime = window.performance.timing.loadEventEnd - window.performance.timing.fetchStart;
                     browser.firstPaintTime = window.performance.getEntriesByType('paint').length > 0 ? (window.performance.getEntriesByType('paint')[0].startTime || window.performance.timing.responseStart - window.performance.timing.navigationStart) : window.performance.timing.responseStart - window.performance.timing.navigationStart;
-                    browser.FirstContentfulPaintTime = window.performance.getEntriesByType('paint').length > 1 ? (window.performance.getEntriesByType('paint')[1].startTime || '') : '';
+                    browser.firstContentfulPaintTime = window.performance.getEntriesByType('paint').length > 1 ? (window.performance.getEntriesByType('paint')[1].startTime || '') : '';
                     let page = window.performance.getEntries();
                     let js = page.filter(ele => ele.initiatorType === "script");
                     let css = page.filter(ele => ele.initiatorType === "css");

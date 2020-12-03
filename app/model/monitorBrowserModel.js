@@ -5,7 +5,7 @@ const monitorBrowserModel = {
     browserVersionNumber: '',//浏览器版本号(通过用户信息识别)，如"76"，变长字符串50
     browserName: '',//浏览器名称(通过用户信息识别)，如"chrome"，变长字符串50
     os: '',//操作系统(通过用户信息识别)，如"windows nt 10.0"表示win10，变长字符串50
-    netType: '',//网络(通过用户信息识别)，如"4g"，变长字符串50
+    netType: '',//网络状态(通过用户信息识别)，如"4g"，变长字符串50
     language: '',//语言环境(通过用户信息识别)，如"ch-zn"表示中文，变长字符串50
     platform: '',//平台(通过用户信息识别)，如"win64"表示windows 64位，变长字符串50
     model: '',//模型(通过用户信息识别)，如"chrome"、"android"，变长字符串50
@@ -37,7 +37,7 @@ const monitorBrowserModel = {
     domReadyTime: '',//网页预备时间(通过性能信息获取，文档内容加载完毕时间结束-请求开始)，如"951.755000045523"，变长字符串50
     loadCompleteTime: '',//网页加载完成时间(通过性能信息获取，文档完成-请求开始)，如"951.755000045523"，变长字符串50
     firstPaintTime: '',//网页首次绘制时间(通过性能绘制信息获取)，如"951.755000045523"，变长字符串50
-    FirstContentfulPaintTime: '',//网页首次绘制完成时间(通过性能绘制信息获取)，如"951.755000045523"，变长字符串50
+    firstContentfulPaintTime: '',//网页首次绘制完成时间(通过性能绘制信息获取)，如"951.755000045523"，变长字符串50
     entriesInfo: '',//网页文件信息(通过性能文件信息获取)，如"(8) [PerformanceNavigationTiming, PerformanceResourceTiming, PerformanceResourceTiming, PerformanceResourceTiming, PerformanceResourceTiming, PerformancePaintTiming, PerformancePaintTiming, PerformanceEventTiming]"，变长字符串2000
     jsCount: 0,//脚本文件数量(通过性能文件信息获取)，如"1"，变长字符串50
     cssCount: 0,//样式文件数量(通过性能文件信息获取)，如"1"，变长字符串50
