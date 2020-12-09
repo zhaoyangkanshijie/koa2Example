@@ -165,13 +165,14 @@ class browserMonitor{
             versionNumber: browser_match[4] || browser_match[2] || "0",
             platform: platform_match[0] || "unknown",
             os: os_match[0] || "unknown",
-            netType: net_match[0] || window.navigator.connection.effectiveType || "unknown",
+            netType: net_match[0] || (window.navigator.connection ? window.navigator.connection.effectiveType : "unknown") || "unknown",
             language: language_match[0] || "unknown",
             model: model_match[2] || model_match[0] || "unknown"
         };
     
         let browser = {};
         browser[matched.browser] = true;
+        browser.userAgent = ua;
         browser.browserVersion = matched.version;
         browser.browserVersionNumber = matched.versionNumber;
         browser.browserName = matched.browser;
@@ -315,14 +316,14 @@ class browserMonitor{
                     browser.domReadyTime = window.performance.timing.domContentLoadedEventEnd - window.performance.timing.fetchStart;
                     browser.loadCompleteTime = window.performance.timing.loadEventEnd - window.performance.timing.fetchStart;
                     browser.firstPaintTime = window.performance.getEntriesByType('paint').length > 0 ? (window.performance.getEntriesByType('paint')[0].startTime || window.performance.timing.responseStart - window.performance.timing.navigationStart) : window.performance.timing.responseStart - window.performance.timing.navigationStart;
-                    browser.firstContentfulPaintTime = window.performance.getEntriesByType('paint').length > 1 ? (window.performance.getEntriesByType('paint')[1].startTime || '') : '';
+                    browser.FirstContentfulPaintTime = window.performance.getEntriesByType('paint').length > 1 ? (window.performance.getEntriesByType('paint')[1].startTime || '') : '';
                     let page = window.performance.getEntries();
                     let js = page.filter(ele => ele.initiatorType === "script");
                     let css = page.filter(ele => ele.initiatorType === "css");
                     let xhr = page.filter(ele => ele.initiatorType === "xmlhttprequest");
                     let img = page.filter(ele => ele.initiatorType === "img");
                     let resource = page.filter(ele => ele.initiatorType === "resource");
-                    browser.entriesInfo = page;
+                    browser.entriesInfo = "page";//page;
                     browser.jsCount = js.length;
                     browser.cssCount = css.length;
                     browser.xhrCount = xhr.length;
@@ -521,5 +522,10 @@ class browserMonitor{
 }
 window.onload = () => {
     console.log('onload')
-    new browserMonitor();
+    try{
+        new browserMonitor();
+    }
+    catch(e){
+        console.log(e)
+    }
 }
