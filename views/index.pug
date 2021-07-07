@@ -4,7 +4,7 @@ block content
   script(type='text/javascript', src='https://cdn.dashjs.org/latest/dash.all.min.js')
   h1= title
   p Welcome to #{title}
-  //video#video(src="",controls="",autoplay="", preload="auto")
-  //script(type='text/javascript', src='/javascripts/videoStream.js')
+  video#video(src="",controls="",autoplay="", preload="auto")
+  script(type='text/javascript', src='/javascripts/videoStream.js')
   video#videoPlayer(src="/resource/fr/yell.mpd",controls="",style="width:50%")
   script(type='text/javascript', src='/javascripts/dash.js')

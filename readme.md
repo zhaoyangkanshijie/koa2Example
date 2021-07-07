@@ -605,6 +605,8 @@ CREATE TABLE `stay_monitor` (
 
 首页
 
+dash.js ffmpeg mp4->m4s url.createObjectURL
+
 [为什么视频网站的视频链接地址是blob？](https://juejin.cn/post/6844903880774385671)
 
 [详解并探究blob:http:// 视频格式流](https://blog.csdn.net/qq_43571807/article/details/109553265)
