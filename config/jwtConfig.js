@@ -10,6 +10,7 @@ const config = {
         '/api/mockServer/*',
         '/api/pvuv/*',
         '/api/monitor/*',
+        '/api/video/*',
         '/favicon.ico'
     ]
 }

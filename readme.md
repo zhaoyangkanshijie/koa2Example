@@ -15,6 +15,7 @@
 * [白名单模拟路由匹配](#白名单模拟路由匹配)
 * [SQL模拟LINQ](#SQL模拟LINQ)
 * [前端埋点监控信息记录](#前端埋点监控信息记录)
+* [blob视频流](#blob视频流)
 * [生产环境pm2相关](#生产环境pm2相关)
 * [chromeDebug](#chromeDebug)
 * [单元测试](#单元测试)
@@ -480,6 +481,137 @@ model.time = new Date().getTime();
 delete model.id;
 let result = await monitorRepository.addBrowserData(model);
 ```
+
+browser
+```sql
+CREATE TABLE `browser_monitor` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `browserVersion` varchar(100) DEFAULT NULL,
+  `browserVersionNumber` varchar(100) DEFAULT NULL,
+  `browserName` varchar(100) DEFAULT NULL,
+  `os` varchar(100) DEFAULT NULL,
+  `netType` varchar(100) DEFAULT NULL,
+  `language` varchar(100) DEFAULT NULL,
+  `platform` varchar(100) DEFAULT NULL,
+  `model` varchar(100) DEFAULT NULL,
+  `domain` varchar(100) DEFAULT NULL,
+  `url` varchar(300) DEFAULT NULL,
+  `title` varchar(100) DEFAULT NULL,
+  `referrer` varchar(300) DEFAULT NULL,
+  `lastModified` varchar(100) DEFAULT NULL,
+  `cookie` varchar(500) DEFAULT NULL,
+  `characterSet` varchar(100) DEFAULT NULL,
+  `screenHeight` varchar(100) DEFAULT NULL,
+  `screenWidth` varchar(100) DEFAULT NULL,
+  `colorDepth` varchar(100) DEFAULT NULL,
+  `devicePixelRatio` varchar(100) DEFAULT NULL,
+  `dnsTime` varchar(100) DEFAULT NULL,
+  `tcpTime` varchar(100) DEFAULT NULL,
+  `firstPaintTime` varchar(100) DEFAULT NULL,
+  `FirstContentfulPaintTime` varchar(100) DEFAULT NULL,
+  `domRenderTime` varchar(100) DEFAULT NULL,
+  `loadTime` varchar(100) DEFAULT NULL,
+  `ip` varchar(100) DEFAULT NULL,
+  `time` varchar(200) DEFAULT NULL,
+  `performance` varchar(2000) DEFAULT NULL,
+  `redirectTime` varchar(200) DEFAULT NULL,
+  `redirectCount` int(11) DEFAULT NULL,
+  `sslTime` varchar(200) DEFAULT NULL,
+  `requestTime` varchar(200) DEFAULT NULL,
+  `responseTime` varchar(200) DEFAULT NULL,
+  `domExplainTime` varchar(200) DEFAULT NULL,
+  `resourceLoadTime` varchar(200) DEFAULT NULL,
+  `domAnalysisTime` varchar(200) DEFAULT NULL,
+  `blankTime` varchar(200) DEFAULT NULL,
+  `firstInteractiveTime` varchar(200) DEFAULT NULL,
+  `domReadyTime` varchar(200) DEFAULT NULL,
+  `loadCompleteTime` varchar(200) DEFAULT NULL,
+  `entriesInfo` varchar(2000) DEFAULT NULL,
+  `jsCount` int(11) DEFAULT NULL,
+  `cssCount` int(11) DEFAULT NULL,
+  `xhrCount` int(11) DEFAULT NULL,
+  `imgCount` int(11) DEFAULT NULL,
+  `resourceCount` int(11) DEFAULT NULL,
+  `jsLoadTime` varchar(200) DEFAULT NULL,
+  `cssLoadTime` varchar(200) DEFAULT NULL,
+  `xhrLoadTime` varchar(200) DEFAULT NULL,
+  `imgLoadTime` varchar(200) DEFAULT NULL,
+  `userAgent` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idbrowser_monitor_UNIQUE` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
+```
+
+error
+```sql
+CREATE TABLE `error_monitor` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `url` varchar(200) DEFAULT NULL,
+  `type` varchar(100) DEFAULT NULL,
+  `row` int(11) DEFAULT NULL,
+  `col` int(11) DEFAULT NULL,
+  `source` varchar(200) DEFAULT NULL,
+  `msg` varchar(2000) DEFAULT NULL,
+  `ip` varchar(100) DEFAULT NULL,
+  `time` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+```
+
+event
+```sql
+CREATE TABLE `event_monitor` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `eventType` varchar(100) DEFAULT NULL,
+  `happenTime` varchar(200) DEFAULT NULL,
+  `content` varchar(2000) DEFAULT NULL,
+  `ip` varchar(100) DEFAULT NULL,
+  `time` varchar(200) DEFAULT NULL,
+  `url` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8;
+```
+
+request
+```sql
+CREATE TABLE `request_monitor` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `requestMethod` varchar(20) DEFAULT NULL,
+  `requestOriginalUrl` varchar(200) DEFAULT NULL,
+  `ip` varchar(200) DEFAULT NULL,
+  `requestContent` varchar(2000) DEFAULT NULL,
+  `responseTime` varchar(200) DEFAULT NULL,
+  `responseStatus` varchar(200) DEFAULT NULL,
+  `responseContent` varchar(2000) DEFAULT NULL,
+  `time` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
+```
+
+stay
+```sql
+CREATE TABLE `stay_monitor` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `url` varchar(200) DEFAULT NULL,
+  `stayTime` int(11) DEFAULT NULL,
+  `ip` varchar(100) DEFAULT NULL,
+  `time` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
+```
+
+## blob视频流
+
+首页
+
+[为什么视频网站的视频链接地址是blob？](https://juejin.cn/post/6844903880774385671)
+
+[详解并探究blob:http:// 视频格式流](https://blog.csdn.net/qq_43571807/article/details/109553265)
+
+[通过BLOB加密视频文件](https://blog.csdn.net/qq_43571807/article/details/109553265)
+
+[前端video标签播放m3u8格式视频](https://blog.csdn.net/qq_30282133/article/details/81566273)
 
 ## 生产环境pm2相关
 

@@ -27,7 +27,7 @@ router.all('*', async (ctx, next) => {
         //console.log("处理通过");
     } catch (e) {
         //console.log("处理错误");
-        ctx.response.status = e.statusCode || err.status || 500;
+        ctx.response.status = e.statusCode || e.status || 500;
         ctx.response.body = {
             message: e.message
         }

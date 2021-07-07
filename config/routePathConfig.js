@@ -8,6 +8,7 @@ const routePath = {
     'mockServer': '../routes/api/mockServer',
     'PVUV': '../routes/api/PVUV',
     'monitor': '../routes/api/monitor',
+    'video': '../routes/api/video',
 }
 
 module.exports = routePath;

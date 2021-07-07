@@ -103,11 +103,11 @@ const connector = class{
         let index = 0;
         for(let key in model){
             if(index === 0){
-                this.sql += `${key} = '${model[key]}'`;
+                this.sql += `${key} = '${model[key] ? model[key].toString().replace(/'/g,"\\'") : '\'\''}'`;
                 index++;
             }
             else{
-                this.sql += `,${key} = '${model[key]}'`;
+                this.sql += `,${key} = '${model[key] ? model[key].toString().replace(/'/g,"\\'") : '\'\''}'`;
             }
         }
         global.logHandle(this.sql);
