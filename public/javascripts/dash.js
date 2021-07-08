@@ -10,7 +10,7 @@
             video.src = url.createObjectURL(this.response);
         }
     }
-    xhr.open('GET', video.getAttribute('data-src'));
+    xhr.open('GET', video.getAttribute('src'));
     xhr.responseType = 'blob';
     xhr.send();
 })();
