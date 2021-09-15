@@ -9,6 +9,7 @@ const routePath = {
     'PVUV': '../routes/api/PVUV',
     'monitor': '../routes/api/monitor',
     'video': '../routes/api/video',
+    'video': '../routes/api/swagger',
 }
 
 module.exports = routePath;

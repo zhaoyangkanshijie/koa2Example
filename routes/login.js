@@ -5,12 +5,38 @@ const token = require('../app/util/token')
 
 router.prefix('/login')
 
+
 router.get('/', async (ctx, next) => {
     await ctx.render('login', {
         title: 'login'
     })
 })
-.post('/', async (ctx, next) => {
+
+/**
+   * @swagger
+   * /login:
+   *   post:
+   *     description: 用户登录
+   *     tags: [用户登录模块]
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: password
+   *         description: 用户密码.
+   *         in: body
+   *         required: true
+   *         type: string
+   *       - name: name
+   *         description: 用户名.
+   *         in: body
+   *         required: true
+   *         type: string
+   *     responses:
+   *       200:
+   *         description: 登录成功
+   *   
+   */
+router.post('/', async (ctx, next) => {
     //global.logHandle(ctx)
     await usersRepository.findUser(ctx.request.body['name']).then(async (data) => {
         if(data[0] && data[0].password){

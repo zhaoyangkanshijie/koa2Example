@@ -19,6 +19,7 @@
 * [生产环境pm2相关](#生产环境pm2相关)
 * [chromeDebug](#chromeDebug)
 * [单元测试](#单元测试)
+* [自动生成文档](#自动生成文档)
 
 ---
 
@@ -694,3 +695,11 @@ chrome console 可展开object
 ## 单元测试
 
 [koa单元测试](https://blog.csdn.net/qq_45453266/article/details/108775757)
+
+## 自动生成文档
+
+[swagger-jsdoc](https://www.npmjs.com/package/swagger-jsdoc)
+
+[koa2-swagger-ui](https://www.npmjs.com/package/koa2-swagger-ui)
+
+[Swagger Petstore](https://editor.swagger.io/?_ga=2.132017415.928281264.1596593063-247237175.1594971087)

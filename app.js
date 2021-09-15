@@ -13,6 +13,7 @@ const authoization = require('./middleware/authoization')
 const interceptor = require('./middleware/interceptor')
 const applicationLog = require('./middleware/log')
 const activateRoutes = require('./middleware/activateRoutes')
+const { koaSwagger } = require('koa2-swagger-ui')
 
 const code = require('./config/responseCodeConfig')
 const logHandle = require('./app/util/koaLog4').logHandle
@@ -50,6 +51,13 @@ app.use(views(__dirname + '/views', {
 
 // logger
 app.use(applicationLog())
+
+app.use(koaSwagger({
+  routePrefix: '/api/swagger', // host at /swagger instead of default /docs
+  swaggerOptions: {
+    url: '/api/swagger/swagger.json', // example path to json 其实就是之后swagger-jsdoc生成的文档地址
+  },
+}))
 
 // middleware intercept
 app.use(authoization.routes(), authoization.allowedMethods())

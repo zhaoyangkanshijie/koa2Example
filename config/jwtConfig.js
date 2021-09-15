@@ -11,6 +11,7 @@ const config = {
         '/api/pvuv/*',
         '/api/monitor/*',
         '/api/video/*',
+        '/api/swagger/*',
         '/favicon.ico'
     ]
 }

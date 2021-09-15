@@ -4,12 +4,43 @@ const bcrypt = require('bcryptjs');
 
 router.prefix('/register')
 
+
 router.get('/', async (ctx, next) => {
     await ctx.render('register', {
         title: 'register'
     })
 })
-.post('/', async (ctx, next) => {
+
+/**
+   * @swagger
+   * /register:
+   *   post:
+   *     description: 用户注册
+   *     tags: [用户注册模块]
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: password
+   *         description: 用户密码.
+   *         in: body
+   *         required: true
+   *         type: string
+   *       - name: name
+   *         description: 用户名.
+   *         in: body
+   *         required: true
+   *         type: string
+   *       - name: email
+   *         description: 邮箱.
+   *         in: body
+   *         required: true
+   *         type: string
+   *     responses:
+   *       200:
+   *         description: 注册成功
+   *   
+   */
+router.post('/', async (ctx, next) => {
     //global.logHandle(ctx)
     let model = {
         name: ctx.request.body['name'],

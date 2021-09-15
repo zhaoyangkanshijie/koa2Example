@@ -27,11 +27,13 @@
     "koa-sslify": "^4.0.3",
     "koa-static": "^5.0.0",
     "koa-views": "^6.2.0",
+    "koa2-swagger-ui": "^5.2.0",
     "moment": "^2.28.0",
     "mssql": "^6.2.3",
     "mysql": "^2.18.1",
     "pug": "^2.0.3",
-    "redis": "^3.0.2"
+    "redis": "^3.0.2",
+    "swagger-jsdoc": "^6.1.0"
   },
   "devDependencies": {
     "jest": "^26.6.3",
